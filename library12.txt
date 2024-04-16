@@ -1,0 +1,627 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <conio.h>
+
+struct book{
+ int IDbook;
+ int year_published;
+ int quantity;
+ char title[50];
+ char author[50];
+}b;
+
+struct student{
+    int id;
+    char sName[50];
+    char sCourse_Yr_sec[100];
+    int sIDnumber;
+    char bookName[50];
+    char date[12];
+}s;
+
+// Function prototypes
+void logIn();
+void librarian();
+void display_admin_menu();
+void display_student_menu();
+void addbook();
+void booklist();
+void modifybook();
+void removebook();
+void issuedbook();
+void searchbook();
+void display_student_menu();
+void viewbook();
+void search_Book();
+void borrowbook();
+
+int main()
+{
+    welcomeMessage();
+    logIn();
+
+    return 0;
+}
+
+void printMessageCenter(char* message)
+{
+    int len =0;
+    int pos = 0;
+    //calculate how many space need to print
+    len = (78 - strlen(message))/2;
+    printf("\t\t\t");
+    for(pos =0 ; pos < len ; pos++)
+    {
+        //print space
+        printf(" ");
+    }
+    //print message
+    printf("%s",message);
+}
+void headMessage(char* message)
+{
+    system("cls");
+    printf("\n\t\t\t*************************************************************************");
+    printf("\n\t\t\t*                                                                       *");
+    printf("\n\t\t\t*                         LIBRARY MANAGEMENT SYSTEM                     *");
+    printf("\n\t\t\t*                                                                       *");
+    printf("\n\t\t\t*************************************************************************");
+    printf("\n\t\t\t-------------------------------------------------------------------------\n");
+    printMessageCenter(message);
+    printf("\n\t\t\t-------------------------------------------------------------------------");
+}
+void welcomeMessage()
+{
+    headMessage("\t\tCebu Technological University - Main Campus\n\t\t\t\t\t\t\t   Library");
+    printf("\n\n\n\n\n\t\t\t Enter any key to continue.....");
+    getch();
+    logIn();
+}
+
+void logIn()
+{
+    int choice;
+
+     while(1){
+        system("cls");
+        printf("\n\t\t\t**************************************************************************\n");
+        printf("\t\t\t*                   WELCOME TO LIBRARY MANAGEMENT SYSTEM                 *\n");
+        printf("\t\t\t*                                MAIN MENU                               *\n");
+        printf("\t\t\t**************************************************************************\n\n");
+        printf("\t\t\t--------------------------------------------------------------------------\n");
+        printf("\t\t\t                     Please Choose Any Option To Log in                   \n");
+        printf("\t\t\t--------------------------------------------------------------------------\n");
+
+        printf("\n\t\t\t\t1. Librarian\n");
+        printf("\t\t\t\t2. Student\n");
+        printf("\t\t\t\t3. Exit\n");
+        printf("\n\t\t\t\tPlease Enter Your Above Choice : ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+        case 1:
+               librarian();
+               break;
+        case 2:
+               display_student_menu();
+               break;
+        case 3:
+               printf("\n\n\n\t\t\t\t\tPress Any Key to Close the System........");
+               getch();
+               system("cls");
+               welcomeMessage();
+               break;
+        default:
+               printf("\n\n\t\t\t\t\t\tInvalid Code!Please Try again.");
+               printf("\n\n\t\t\t\t\t\tPress Any Key to Re-enter.....");
+               getch();
+               system("cls");
+               logIn();
+               break;
+        }
+     }
+
+}
+
+void librarian()
+{
+
+    system("cls");
+    printf("\n\t\t\t**************************************************************************\n");
+    printf("\t\t\t*                        LIBRARY MANAGEMENT SYSTEM                       *\n");
+    printf("\t\t\t*                            ADMIN LOG IN PAGE                           *\n");
+    printf("\t\t\t**************************************************************************\n\n");
+
+    char username[50];
+    char password[50];
+
+    printf("\n\n\t\t\t\t\tEnter Username: ");
+    scanf(" %[^\n]", username);
+    printf("\n\n\t\t\t\t\tEnter Password: ");
+    scanf(" %[^\n]", password);
+
+    if (strcmp(username, "admin") == 0 && strcmp(password, "admin123") == 0)
+        {
+        printf("\n\n\n\t\t\t\t\tLog in Successfully.....\n");
+        printf("\n\t\t\t\t\tEnter any key to continue.....");
+        getch();
+        system("cls");
+        display_admin_menu();
+        }else{
+        printf("\n\n\n\t\t\t\t\t\tInvalid Input!Please try again.");
+        printf("\n\n\t\t\t\t\t\tPress Any Key to Re-enter.....");
+        getch();
+        librarian();
+        }
+}
+
+void display_admin_menu()
+{
+    int choice;
+    do{
+        system("cls");
+        printf("\n\t\t\t**************************************************************************\n");
+        printf("\t\t\t*                        LIBRARY MANAGEMENT SYSTEM                       *\n");
+        printf("\t\t\t*                            ADMIN MENU PAGE                             *\n");
+        printf("\t\t\t**************************************************************************\n\n");
+
+        printf("\n\t\t\t\t\t1. Add New Book");
+        printf("\n\t\t\t\t\t2. View Book List");
+        printf("\n\t\t\t\t\t3. Search Book");
+        printf("\n\t\t\t\t\t4. Modify Book");
+        printf("\n\t\t\t\t\t5. Remove Book");
+        printf("\n\t\t\t\t\t6. Issued Book List");
+        printf("\n\t\t\t\t\t7. Update Password");
+        printf("\n\t\t\t\t\t8. Go Back to Main Menu");
+        printf("\n\t\t\t\t\t0. Exit\n");
+        printf("\n\n\t\t\t\t\tEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 0:
+               printf("\n\n\n\t\t\t\t\tPress Any Key to Close the System........");
+               getch();
+               exit(1);
+                break;
+            case 1:
+                addbook();
+                break;
+            case 2:
+                booklist();
+                break;
+            case 3:
+                searchbook();
+                break;
+            case 4:
+                modifybook();
+                break;
+            case 5:
+                removebook();
+                break;
+            case 6:
+                issuedbook();
+                break;
+            case 7:
+                //updatepassword();
+                break;
+            case 8:
+                logIn();
+                break;
+            default:
+                printf("\n\n\t\t\t\t\tInvalid Choice! Please Try Again.");
+                printf("\n\t\t\t\t\tEnter Any Key to Re-enter the code.....");
+                getch();
+                system("cls");
+                display_admin_menu();
+                break;
+        }
+    }while(choice!=8);
+}
+
+void addbook()
+{
+    system("cls");
+    headMessage("ADD BOOKS");
+
+
+    FILE *fp = fopen("bookrecord.txt", "ab");
+
+    if (fp == NULL) {
+        fprintf(stderr, "\t\t\tCan't open file\n");
+        exit(-1);
+    }
+
+    char another;
+
+    do {
+        printf("\n\n\t\t\tEnter Book Id: ");
+        scanf("%d", &b.IDbook);
+
+        printf("\n\t\t\tEnter Book Name: ");
+        fflush(stdin);
+        gets(b.title);
+
+
+        printf("\n\t\t\tEnter Author Name: ");
+        fflush(stdin);
+        gets(b.author);
+
+        printf("\n\t\t\tDate Issued: ");
+        scanf("%d", &b.year_published);
+
+        printf("\n\t\t\tQuantity: ");
+        scanf("%d", &b.quantity);
+
+        fwrite(&b, sizeof(b), 1, fp);
+
+        printf("\n\t\t\tRecord stored successfully....\n");
+
+        printf("\t\t\tDo you want to add another book?(y/n): ");
+        scanf(" %c", &another);
+    } while(another == 'y' || another == 'Y' && another == 'n' || another == 'N');
+
+    fclose(fp);
+}
+
+void booklist()
+{
+    system("cls");
+    headMessage("BOOKLIST PAGE");
+    int found = 0;
+    printf("\n\n\t\t Book id\t\tBook Title\t\tAuthor\t\tDate Pub\t\tQuantity\n");
+
+    FILE *fp = fopen("bookrecord.txt", "rb");
+
+    while(fread(&b, sizeof(b), 1, fp) == 1){
+        printf("\t\t%d", b.IDbook);
+        printf("\t\t\t%s", b.title);
+        printf("\t\t%s", b.author);
+        printf("\t\t%d", b.year_published);
+        printf("\t\t%d\n", b.quantity);
+        found = 1;
+    }
+
+    fclose(fp);
+     if(!found)
+    {
+        printf("\n\t\t\tNo Record Books");
+    }
+    printf("\n\n\n\n\n\n\t\t\t\t\tPress any key to go to main menu.....");
+    fflush(stdin);
+    getchar();
+}
+
+void searchbook()
+{
+    system("cls");
+    headMessage("SEARCH BOOK PAGE");
+
+    int id;
+    printf("\nEnter the book id to search: ");
+    scanf("%d", &id);
+
+    FILE *fp = fopen("bookrecord.txt", "rb");
+    if (fp == NULL) {
+        fprintf(stderr, "Can't open file\n");
+        exit(-1);
+    }
+
+    struct book temp; // Declare temp as struct book
+    int found = 0;
+
+    while (fread(&temp, sizeof(temp), 1, fp) == 1) {
+        if (id == temp.IDbook) {
+            found = 1;
+            printf("\nBook Found!!\n");
+            printf("Book Id: %d\n", temp.IDbook);
+            printf("Title: %s\n", temp.title);
+            printf("Author: %s\n", temp.author);
+            printf("Date Issued: %d\n", temp.year_published);
+            printf("Quantity: %d\n", temp.quantity);
+            printf("--------------------------------\n");
+            break; // Stop searching once the book is found
+        }
+    }
+
+    if (found == 0) {
+        printf("Sorry!! The book is not in the database\n");
+    }
+
+    fclose(fp);
+}
+
+void modifybook()
+{
+    system("cls");
+    headMessage("MODIFY BOOK PAGE");
+
+    int id, found = 0;
+    FILE *fp = fopen("bookrecord.txt", "rb+");
+
+    if (fp == NULL) {
+        fprintf(stderr, "Can't open file\n");
+        exit(-1);
+    }
+
+    printf("\n\t\t\t\tEnter the book id to edit: ");
+    scanf("%d", &id);
+
+    while (fread(&b, sizeof(b), 1, fp) == 1) {
+        if (b.IDbook == id) {
+            found = 1;
+
+            printf("\n\t\t\t\tWhat field do you want to edit:\n");
+            printf("1. ISBN\n");
+            printf("2. Title\n");
+            printf("3. Author\n");
+            printf("4. Date Issued\n");
+            printf("5. Quantity\n");
+            printf("Enter your choice: ");
+
+            int edit_option;
+            scanf("%d", &edit_option);
+
+            switch (edit_option) {
+                case 1:
+                    printf("Enter new Book Id: ");
+                    scanf("%d", &b.IDbook);
+                    break;
+                case 2:
+                    printf("Enter new Title: ");
+                    getchar(); // Clear input buffer
+                    fgets(b.title, sizeof(b.title), stdin);
+                    break;
+                case 3:
+                    printf("Enter new Author: ");
+                    getchar(); // Clear input buffer
+                    fgets(b.author, sizeof(b.author), stdin);
+                    break;
+                case 4:
+                    printf("Enter new Publication: ");
+                    scanf("%d", &b.year_published);
+                    break;
+                case 5:
+                    printf("Enter new Quantity: ");
+                    scanf("%d", &b.quantity);
+                    break;
+                default:
+                    printf("Invalid choice! Enter a valid option.\n");
+                    break;
+            }
+
+            fseek(fp, -sizeof(b), SEEK_CUR);
+            fwrite(&b, sizeof(b), 1, fp);
+            printf("Book record modified in the database!!\n");
+            break;
+        }
+    }
+
+    if (found == 0) {
+        printf("Sorry, the book is not in the database.\n");
+    }
+
+    fclose(fp);
+}
+
+void removebook()
+{
+    int id, found = 0;
+    system("cls");
+    headMessage("REMOVE BOOK PAGE");
+
+    printf("\n\n\t\t\tEnter ID to Remove Book: ");
+    scanf("%d", &id);
+
+    FILE *fp = fopen("bookrecord.txt", "rb");
+    FILE *ft = fopen("temp.txt", "wb"); // Using temp file for modifications
+
+    while (fread(&b, sizeof(b), 1, fp) == 1) {
+        if (id == b.IDbook) {
+            found = 1;
+            printf("\n\nBook Deleted Successfully....");
+        } else {
+            fwrite(&b, sizeof(b), 1, ft);
+        }
+    }
+
+    if (found == 0) {
+        printf("\n\nNo Book Found....");
+    }
+
+    fclose(fp);
+    fclose(ft);
+
+    remove("bookrecord.txt");
+    rename("temp.txt", "bookrecord.txt");
+}
+
+void issuedbook()
+{
+   system("cls");
+   headMessage("ISSUE BOOK LIST PAGE");
+
+    FILE *fp = fopen("issuebookList.txt", "rb");
+    while(fread(&s, sizeof(s), 1, fp) == 1){
+        printf("\n\t\t\t\tName: %s", s.sName);
+        printf("\n\t\t\t\tCourse,Year, and Section: %s", s.sCourse_Yr_sec);
+        printf("\n\t\t\t\tID Number: %d", s.sIDnumber);
+        printf("\n\t\t\t\tBook Nmae: %s", s.bookName);
+        printf("\n\t\t\t\tDate: %s", s.date);
+    }
+
+    fclose(fp);
+}
+
+void display_student_menu()
+{
+    int choice;
+    do {
+        system("cls");
+        printf("\n\t\t\t**************************************************************************\n");
+        printf("\t\t\t*                        LIBRARY MANAGEMENT SYSTEM                       *\n");
+        printf("\t\t\t*                           STUDENT MENU PAGE                            *\n");
+        printf("\t\t\t**************************************************************************\n\n");
+
+        printf("\n\t\t\t\t\t1. View Book List");
+        printf("\n\t\t\t\t\t2. Search Book");
+        printf("\n\t\t\t\t\t3. Borrow Book");
+        printf("\n\t\t\t\t\t4. Return Book");
+        printf("\n\t\t\t\t\t5. Go Back to Main Menu");
+        printf("\n\t\t\t\t\t0. Exit\n");
+        printf("\n\n\t\t\t\t\tEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+        case 0:
+            printf("\n\n\n\t\t\t\t\tPress Any Key to Close the System........");
+               getch();
+               exit(1);
+            break;
+        case 1:
+            viewbook();
+            break;
+
+        case 2:
+            search_Book();
+            break;
+        case 3:
+            borrowbook();
+            break;
+        case 4:
+
+            break;
+        case 5:
+            logIn();
+            break;
+            default:
+                printf("\n\n\t\t\t\t\tInvalid Choice! Please Try Again.");
+                printf("\n\t\t\t\t\tEnter Any Key to Re-enter the code.....");
+                getch();
+                system("cls");
+                display_admin_menu();
+                break;
+        }
+    }while(choice!=5);
+}
+
+void viewbook()
+{
+    system("cls");
+    headMessage("VIEW BOOK PAGE");
+    int found = 0;
+    printf("\n\n\t\t Book id\t\tBook Title\t\tAuthor\t\tDate Pub\t\tQuantity\n");
+
+    FILE *fp = fopen("bookrecord.txt", "rb");
+
+    while(fread(&b, sizeof(b), 1, fp) == 1){
+        printf("\t\t%d", b.IDbook);
+        printf("\t\t\t%s", b.title);
+        printf("\t\t%s", b.author);
+        printf("\t\t%d", b.year_published);
+        printf("\t\t%d\n", b.quantity);
+        found = 1;
+    }
+
+    fclose(fp);
+     if(!found)
+    {
+        printf("\n\t\t\tNo Record Books");
+    }
+    printf("\n\n\n\n\n\n\t\t\t\t\tPress any key to go to main menu.....");
+    fflush(stdin);
+    getchar();
+}
+
+void search_Book()
+{
+    system("cls");
+    headMessage("SEARCH BOOK PAGE");
+
+    int id;
+    printf("\nEnter the book id to search: ");
+    scanf("%d", &id);
+
+    FILE *fp = fopen("bookrecord.txt", "rb");
+    if (fp == NULL) {
+        fprintf(stderr, "Can't open file\n");
+        exit(-1);
+    }
+
+    struct book temp; // Declare temp as struct book
+    int found = 0;
+
+    while (fread(&temp, sizeof(temp), 1, fp) == 1) {
+        if (id == temp.IDbook) {
+            found = 1;
+            printf("\nBook Found!!\n");
+            printf("Book Id: %d\n", temp.IDbook);
+            printf("Title: %s\n", temp.title);
+            printf("Author: %s\n", temp.author);
+            printf("Date Issued: %d\n", temp.year_published);
+            printf("Quantity: %d\n", temp.quantity);
+            printf("--------------------------------\n");
+            break; // Stop searching once the book is found
+        }
+    }
+
+    if (found == 0) {
+        printf("Sorry!! The book is not in the database\n");
+    }
+
+    fclose(fp);
+}
+
+void borrowbook()
+{
+    system("cls");
+    headMessage("BORROW BOOK PAGE");
+    char myDate[12];
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    sprintf(myDate, "%02d/%02d/%d", tm.tm_mday, tm.tm_mon+1, tm.tm_year + 1900);
+    strcpy(s.date, myDate);
+
+    int f=0;
+
+    printf("Enter Book id to issue: ");
+    scanf("%d", &s.id);
+
+    //Check if we have book of given id
+    FILE *fp = fopen("bookrecord.txt", "ab");
+
+    while(fread(&b, sizeof(b), 1, fp) == 1){
+        if(b.IDbook == s.id){
+            strcpy(s.bookName, b.title);
+            f=1;
+            break;
+        }
+    }
+
+    if(f==0){
+        printf("No book found with this id\n");
+        printf("Please try again...\n\n");
+        return;
+    }
+
+    fp = fopen("issue.txt", "ab");
+
+    printf("Enter Student Name: ");
+    fflush(stdin);
+    gets(s.sName);
+
+    printf("Enter Student (Course,Year, and Section): ");
+    fflush(stdin);
+    gets(s.sCourse_Yr_sec);
+
+    printf("Enter Student ID number: ");
+    scanf("%d", &s.sIDnumber);
+
+    printf("Book Issued Successfully\n\n");
+
+    fwrite(&s, sizeof(s), 1, fp);
+    fclose(fp);
+}
